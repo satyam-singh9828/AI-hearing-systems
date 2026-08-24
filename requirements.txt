@@ -3,6 +3,3 @@ openai-whisper
 transformers
 torch
 gTTS
-vosk
-sounddevice
-pydub

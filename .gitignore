@@ -26,6 +26,3 @@ env/
 temp_audio.*
 *.wav
 *.mp3
-isme_hai_saurabh_code/recordings/
-isme_hai_saurabh_code/static/
-isme_hai_saurabh_code/vosk_models/

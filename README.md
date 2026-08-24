@@ -1,6 +1,6 @@
 # AI Hearing Assist
 
-AI Hearing Assist is a hearing support project with a native Android app and Python web prototypes for live captions, transcript summaries, and spoken replies.
+AI Hearing Assist is a hearing support project with a native Android app and a small Python web prototype for transcript summaries and spoken replies.
 
 ## Android App
 
@@ -46,12 +46,11 @@ Useful command-line builds on Windows:
 
 On macOS or Linux, use `./gradlew` with the same task names.
 
-## Python Prototypes
+## Python Prototype
 
-The repository also includes Flask prototypes:
+The repository also includes a Flask prototype:
 
 - `app.py` accepts uploaded audio, transcribes it with Whisper, summarizes it with BART, and creates a spoken reply with gTTS.
-- `isme_hai_saurabh_code/app.py` streams live captions with Vosk, records audio, summarizes the recording, and creates a spoken reply.
 
 Install Python dependencies:
 
@@ -65,12 +64,10 @@ Run a prototype:
 
 ```powershell
 python app.py
-python isme_hai_saurabh_code\app.py
 ```
 
 Python notes:
-- Whisper and pydub need FFmpeg installed on the system path.
-- The Vosk Flask prototype expects a local model under `isme_hai_saurabh_code/vosk_models/`.
+- Whisper needs FFmpeg installed on the system path.
 - gTTS requires internet access because it uses Google's text-to-speech service.
 - Generated recordings and MP3 replies are intentionally ignored by Git.
 

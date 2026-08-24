@@ -4,7 +4,7 @@ from transformers import pipeline
 from gtts import gTTS
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder=".")
 
 # -------------------------------
 # LOAD MODELS ONCE
