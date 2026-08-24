@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Hearing Assist System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body { background: #f4f6f9; }
+        .chat-box { max-height: 300px; overflow-y: auto; padding: 10px;
+                    background: #fff; border-radius: 10px; border: 1px solid #ddd; }
+        .shimmer { position: relative; overflow: hidden; background-color: #e0e0e0;
+                   border-radius: 8px; height: 20px; margin-bottom: 8px; }
+        .shimmer::after { content: ""; position: absolute; top: 0; left: -150px;
+                          width: 150px; height: 100%;
+                          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+                          animation: loading 1.2s infinite; }
+        @keyframes loading { 0% { left: -150px; } 100% { left: 100%; } }
+        .btn-custom { background: linear-gradient(90deg, #4ade80, #3b82f6);
+                      border: none; color: white; }
+        .btn-custom:hover { opacity: 0.9; }
+    </style>
+</head>
+
+<body>
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center text-primary mb-4">🎧 AI Hearing Assist System</h2>
+
+        <!-- Live caption -->
+        <h5>💬 Live Caption</h5>
+        <div class="chat-box" id="chatBox">
+            <div class="shimmer"></div>
+            <div class="shimmer"></div>
+        </div>
+        <br>
+        <button id="startBtn" class="btn btn-custom w-100 mb-3">▶ Start Live Caption (30 sec)</button>
+
+        <!-- Summarize button -->
+        <form method="POST" action="/summarize">
+            <button type="submit" class="btn btn-success w-100 mb-3">📝 Summarize Recorded Audio</button>
+        </form>
+
+        <!-- Text-to-speech -->
+        <h5>✍️ Write Your Reply</h5>
+        <form method="POST" action="/reply">
+            <textarea name="user_text" class="form-control" rows="3" placeholder="Type your reply..."></textarea>
+            <br>
+            <button type="submit" class="btn btn-primary w-100">🔊 Convert to Speech</button>
+        </form>
+
+        {% if reply_audio %}
+        <hr>
+        <h5>🔊 Audio Reply</h5>
+        <audio controls class="w-100">
+            <source src="{{ reply_audio }}" type="audio/mp3">
+        </audio>
+        {% endif %}
+
+        {% if transcript %}
+        <hr>
+        <h5>💬 Transcript</h5>
+        <div class="chat-box">{{ transcript }}</div>
+        {% endif %}
+
+        {% if summary %}
+        <hr>
+        <h5>🧠 Summary</h5>
+        <div class="alert alert-info">{{ summary }}</div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+const startBtn = document.getElementById('startBtn');
+const chatBox = document.getElementById('chatBox');
+
+startBtn.addEventListener('click', () => {
+    chatBox.innerHTML = '<div class="shimmer"></div><div class="shimmer"></div>';
+
+    startBtn.disabled = true;
+    startBtn.innerText = "🔴 Listening...";
+
+    const evtSource = new EventSource('/live');
+    evtSource.onmessage = function(e) {
+        if(e.data.trim() !== "") {
+            const p = document.createElement("p");
+            p.innerText = e.data;
+            chatBox.appendChild(p);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    };
+    evtSource.onerror = function() {
+        evtSource.close();
+        startBtn.disabled = false;
+        startBtn.innerText = "▶ Start Live Caption (200 sec)";
+    };
+});
+</script>
+</body>
+</html>

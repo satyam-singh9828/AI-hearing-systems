@@ -1,0 +1,31 @@
+# Android / Gradle
+.gradle/
+.gradle-user-home/
+.android/
+build/
+app/build/
+gradle-app.setting
+local.properties
+*.iml
+
+# IDE files
+.idea/
+.vscode/
+
+# Local Gradle distribution downloaded for this machine.
+tools/
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Runtime/generated app media
+temp_audio.*
+*.wav
+*.mp3
+isme_hai_saurabh_code/recordings/
+isme_hai_saurabh_code/static/
+isme_hai_saurabh_code/vosk_models/
